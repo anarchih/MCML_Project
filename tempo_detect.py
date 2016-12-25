@@ -122,12 +122,14 @@ def audio_cut(filename, beats):
         for s in split:
             cut.append(s)
     parts = np.split(data, cut)
+    if cut[-1] == size:
+        parts.pop()
 
     minute = size / (44100 * 60)
     bpm = '{:.2f}'.format(len(cut) / minute)
     print(bpm)
 
-    path = 'output' + filename[6:len(filename) - 4] + '(' + str(bpm) + ')/'
+    path = 'music' + filename[6:len(filename) - 4] + '(' + str(bpm) + ')/'
     os.makedirs(os.path.dirname(path), exist_ok=True)
     for i in range(len(parts)):
         wavfile.write(path + str(i) + '.wav', rate, parts[i])
